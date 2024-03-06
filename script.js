@@ -1,20 +1,18 @@
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Function to fetch live scores from OpenFootball API
+    // Function to fetch live scores from Football Data API
     function fetchLiveScores() {
-        const apiKey = 'your_api_key'; // Replace 'your_api_key' with your actual API key
-        const apiUrl = `https://v3.football.api-sports.io/fixtures?live=all`;
+        const apiKey = 'a4a974d4c4f94e1bb6e800d40076c3ae'; // Your API key
+        const apiUrl = `https://api.football-data.org/v2/matches?status=LIVE`;
 
         fetch(apiUrl, {
             method: 'GET',
             headers: {
-                'x-rapidapi-host': 'v3.football.api-sports.io',
-                'x-rapidapi-key': apiKey
+                'X-Auth-Token': apiKey
             }
         })
         .then(response => response.json())
         .then(data => {
-            displayLiveScores(data.response);
+            displayLiveScores(data.matches);
         })
         .catch(error => console.error('Error fetching live scores:', error));
     }
@@ -27,14 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
             const scoreElement = document.createElement('div');
             scoreElement.classList.add('score');
             scoreElement.innerHTML = `
-                <p>${score.teams.home.name} vs ${score.teams.away.name}</p>
-                <p>${score.score.fulltime}</p>
-                <p>${score.fixture.status.short}</p>
-            `;
-            liveScoresContainer.appendChild(scoreElement);
-        });
-    }
-
-    // Call function to fetch live scores
-    fetchLiveScores();
-});
+                <p>${score.homeTeam.name} vs ${score.awayTeam.name}</p>
+                <p>${score.score.fullTime.homeTeam} - ${score.score.fullTime.awayTeam}</p>
+               
